@@ -1,0 +1,58 @@
+plugins {
+    id'com.github.johnrengelman.shadow' version '4.0.4'
+    id "java"
+    id "idea"
+}
+
+group 'ninja.keldon'
+version '1.0.0'
+
+def jdaVersion = '3.8.3_463'
+sourceCompatibility = targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
+}
+
+
+dependencies {
+    implementation("net.dv8tion:JDA:3.8.3_463")
+
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.0'
+
+    compile group: 'org.apache.commons', name: 'commons-text', version: '1.3'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task copyDepsToLib(type: Copy) {
+    into "$buildDir/libs/libs"
+    from configurations.runtime
+}
+
+/*task copyImagesToLib(type: Copy) {
+    into "$buildDir/libs/images"
+    from "$rootDir/images"
+}*/
+
+jar {
+  manifest {
+    attributes(
+      //"Class-Path": configurations.compile.collect { 'libs/' + it.getName() }.join(' '),
+      "Main-Class": 'ninja.keldon.BotMain')
+  }
+}
+
+build.dependsOn(copyDepsToLib)
