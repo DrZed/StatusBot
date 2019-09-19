@@ -8,3 +8,5 @@ use command ;s(for status) watching(playing/listening/streaming) whatever you li
 = User is Watching whatever you like
 
 other command is ;cmc [new command character]
+
+And inside the bot.cfg put use_id==YOUR_USER_ID
